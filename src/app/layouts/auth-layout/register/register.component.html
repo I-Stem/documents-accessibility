@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+<ng-template appPlaceholder></ng-template>
+<section class="bg-white auth-layout flex-grow-1">
+  <div class="container">
+    <div class="d-flex col-12">
+      <div class="col-12 col-md-6 d-flex justify-content-start my-auto">
+        <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm, registrationSuccessfulModal)" class="p-4 w-75">
+          <div class="form-content m-4">
+            <h2 class="text-start mb-3">Create an account</h2>
+            <div class="mb-3 form-group">
+              <label id="email">Email Address *</label>
+              <input  aria-label="enter email address" for="email" name="email" #email="ngModel" ngModel class="form-control" type="email" placeholder="john@mail.com" required>
+            </div>
+
+            <div class="mb-3 form-group">
+              <label id="firstName">First Name *</label>
+              <input aria-label="enter firstname" for="firstName" name="first_name" #first_name="ngModel" ngModel class="form-control" type="text" placeholder="Peter" required>
+            </div>
+
+            <div class="mb-3 form-group">
+              <label id="lastName">Last Name</label>
+              <input aria-label="enter lastname" for="lastName" name="last_name" #last_name="ngModel" ngModel class="form-control" type="text" placeholder="Parker" >
+            </div>
+
+            <div class="mb-3 form-group">
+              <label id="password">Password *</label> 
+              <div class="input-group">
+               <input aria-label="enter password" for="password" name="password" #password="ngModel" ngModel class="form-control" [type]="show_button[0] ? 'text' : 'password' " placeholder="your password" data-toggle="password" required>
+                <div class="input-group-append">
+                  <span class="input-group-text"> 
+                    <i [class] = "show_eye ? 'fa fa-eye' : 'fa fa-eye-slash'" class="d-inline-block float-end" (click)="showPassword(0)"></i></span>               
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 form-group">
+              <label id="confirmPassword">Confirm Password *</label> 
+              <div class="input-group">
+               <input aria-label="confirm password" for="confirmPassword" name="confirm_password" #confirm_password="ngModel" ngModel class="form-control" [type]="show_button[1] ? 'text' : 'password' " placeholder="your password" data-toggle="password" required>
+                <div class="input-group-append">
+                  <span class="input-group-text"> 
+                    <i [class] = "show_eye ? 'fa fa-eye' : 'fa fa-eye-slash'" class="d-inline-block float-end" (click)="showPassword(1)"></i></span>               
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-primary d-block login-button" type="submit" [disabled]="!authForm.valid">CREATE AN
+                ACCOUNT</button>
+            </div>
+
+            <span>Already have an account?</span><a routerLink="/auth" class="text-start ml-2" href="#">Login</a>
+          </div>
+        </form>
+      </div>
+      <div class="d-none d-md-block col-md-6">
+        <img src="/assets/auth.png" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #registrationSuccessfulModal let-c="close" let-d="dismiss">
+  <div class="modal-header border-bottom-0">
+  </div>
+  <div class="modal-body">
+      <p class="text-center mb-0">User Registered Successfully!</p>
+  </div>
+  <div class="modal-footer border-top-0 justify-content-center">
+      <button type="button" class="btn btn-outline-primary px-4" (click)="d('cancel')">Close</button>
+  </div>
+</ng-template>

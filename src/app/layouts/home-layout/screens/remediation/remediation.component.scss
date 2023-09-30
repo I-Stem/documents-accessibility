@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+    #uploadPDFForm{
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {   
+    #uploadPDFForm{
+        width: 90%;
+    }
+}

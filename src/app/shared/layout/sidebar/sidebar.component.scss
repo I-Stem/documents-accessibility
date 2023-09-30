@@ -1,0 +1,56 @@
+.sidebar {
+  margin-top: 15% !important;
+}
+
+.sidebar > a {
+  background-color: #e5e5e5;
+}
+
+.sidebar a:first-child {
+  border-top-width: 0px;
+}
+
+a { 
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea; 
+}
+
+a:hover {
+  color: #f7941e;
+}
+
+a.active {
+  border-right: 5px solid #f7941e;
+  color: #140c03;
+}
+
+.list-group-item{
+  background: transparent !important;
+  border-left: none;
+  border-right: none;
+  background-color: #ffffff;
+  color: black;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.list-group-item-dark{
+  color: #ffffff !important;
+}
+
+.visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute!important;
+  width: 1px!important;
+  height: 1px!important;
+  padding: 0!important;
+  margin: -1px!important;
+  overflow: hidden!important;
+  clip: rect(0,0,0,0)!important;
+  white-space: nowrap!important;
+  border: 0!important;
+}
+
+.hidden-activate-chatbot-button {
+  height: 0px;
+  opacity: 0%;
+}

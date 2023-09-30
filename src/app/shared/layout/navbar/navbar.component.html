@@ -1,0 +1,33 @@
+<header [class]="theme=='default'? 'bg-white' : 'bg-dark'" class="header py-0">
+  <a routerLink="/home/feeds" tabindex="0"  class="ms-4 p-0 me-2">
+    <img src="../../../../assets/istem_logo.png" alt="I-Stem logo" height="70">
+    <span [class]="theme=='default'? 'ms-2 sr-only' : 'ms-2-dark sr-only'" class="ms-2" role="heading" aria-level="1">
+      I-Stem
+    </span>
+  </a>
+  <!-- <i role="button" *ngIf="!mobileSidebarCheck" (click)="sidebarClick()" class="fas fa-bars fa-2x" id="menu"
+    aria-hidden="true"></i>
+  <i role="button" *ngIf="mobileSidebarCheck" (click)="sidebarClick()" class="fas fa-times fa-2x"
+    aria-hidden="true"></i> -->
+</header>
+<nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation menu">
+  <div class="main-navigation" id="bdNavbar">
+    <ul class="navbar-nav flex-row flex-wrap ms-md-auto position-absolute">
+      <li class="nav-item col-3 col-md-auto">
+        <div id="google_translate_element" aria-label="Website Language Selector"></div>
+      </li>
+      <li class="nav-item col-3 col-md-auto">
+        <button [class]="theme=='default'? 'btn-primary' : 'btn-warning'" class="btn high-contrast-button" 
+        (click)="toggleTheme()" aria-label="Toggle high contrast theme" [attr.aria-pressed]="theme!='default'">
+          <i class="fa fa-lightbulb d-inline-block float-end"></i>
+        </button>
+      </li>
+      <!-- <li class="nav-item site-search col-3 col-md-auto">
+        <a class="nav-link p-2 " tabindex="-1" aria-hidden="true">
+          <img src="../../../../assets/search.png" alt="search icon" width="25">
+        </a>
+      </li> -->
+    </ul>
+  </div>
+</nav>
+<hr class="nav-bottom-border my-0" aria-hidden="true">

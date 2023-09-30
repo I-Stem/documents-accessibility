@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+<ng-template appPlaceholder></ng-template>
+<section [class]="theme == 'default'? 'bg-white':'bg-dark'" class="auth-layout flex-grow-1">
+  <div class="container">
+    <div class="d-flex col-12">
+      <div class="col-12 col-md-6 d-flex justify-content-start my-auto">
+        <form [class]="theme == 'default'? '':'bg-dark'" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="p-4 w-75">
+          <div class="form-content m-4">
+            <h2 class="text-start mb-3">Sign in</h2>
+            <div class="mb-3 form-group">
+              <label id="email">Email Address</label>
+              <input aria-label="enter email address" name="email" for="email" #email="ngModel" ngModel class="form-control" type="email" placeholder="john@mail.com" required>
+            </div>
+
+            <div class="mb-3 form-group">
+              <label id="password">Password</label>
+              
+              <div class="input-group">
+                <input aria-label="enter password" for="password" name="password" #password="ngModel" ngModel class="form-control" [type]="show_button ? 'text' : 'password' " placeholder="your password" data-toggle="password" required>
+                <div class="input-group-append">
+                  <span class="input-group-text"> 
+                    <i [class] = "show_eye ? 'fa fa-eye' : 'fa fa-eye-slash'" class="d-inline-block float-end" (click)="showPassword()"></i></span>
+                
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 text-right">
+              <a routerLink="/auth/forgot-password">Forgot Password?</a>
+            </div> 
+            <div class="mb-3">
+              <button class="btn btn-primary d-block login-button" type="submit"
+                [disabled]="!authForm.valid">LOGIN</button>
+            </div>
+            <div class="row">
+              <span>New User?</span><a routerLink="/auth/register" class="text-start ml-2" href="#">Create an account</a> 
+            </div> 
+                     
+          </div>
+        </form>
+      </div>
+      <div class="d-none d-md-block col-md-6">
+        <img src="/assets/auth.png" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</section>

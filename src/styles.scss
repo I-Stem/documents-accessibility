@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* 
+first Bar = #1B8519
+second bar = #80C41C
+third bar = #9C0000
+fourth bar = #ABABAB
+
+
+-------------------------
+Dark Green = Background #CCE6CC | Stroke #1B8519
+Light Green = Background #D6F4A4 | Stroke #32C548
+Red Buttons = Background #F7B0B0 | Stroke #C70000
+Login Button| Independant = #0078CF */
+
+/* You can add global styles to this file, and also import other style files */
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.body-background {
+    // background: #e5e5e5 !important;
+    background-color: white;
+}
+
+h1,h2 {
+    font-size: 1.2rem !important;
+}
+
+.text-black{
+    color:black !important
+}
+
+.bg-dark{
+    background-color: #343a40 !important;
+    color: #ffffff !important;
+}
+// div {
+//     border: 1px solid;
+// }

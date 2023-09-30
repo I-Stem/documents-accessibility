@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+<div [class]="theme=='default'? '' : 'bg-dark'" class="d-flex">
+    <div class="d-flex flex-row no-gutter bg-grey mx-3 w-100">
+        <div class="col-md-2" id="sidebar"role="main">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div role="contentinfo" class="col-md-10 mt-2">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

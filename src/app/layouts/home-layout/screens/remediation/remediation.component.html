@@ -1,0 +1,82 @@
+<div class="flex-container">
+    <h2 class="my-3">Accessibility Conversion</h2>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        <li [ngbNavItem]="1">
+            <a ngbNavLink>File Upload</a>
+            <ng-template ngbNavContent>
+                <form id="uploadPDFForm" [formGroup]="uploadPDFForm" (ngSubmit)="uploadPDFFormSubmit()">
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="upload-pdf">Select PDF for accessibility conversion</label>
+                            <input class="form-control" type="file" formControlName="file"
+                            id="upload-pdf" accept="application/pdf" required
+                            (change)="onFileChange($any($event).target.files[0])">
+                        </div>
+                        <div class="form-group">
+                            <label for="contains-math">Does the document contain math?</label>
+                            <select formControlName="containsMath" class="form-control" id="contains-math" required (change)="checkOutputOptions()">
+                                <option hidden value="">Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="output-format">Select your preferred output format</label>
+                            <select formControlName="outputFormat" class="form-control" id="output-format" required>
+                                <option hidden value="">Select preferred output format</option>
+                                <option value="HTML">HTML</option>
+                                <option value="DOCX">DOCX</option>
+                                <option *ngIf="!+uploadPDFForm.controls['containsMath'].value" value="PDF">PDF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-submit d-flex flex-row">
+                        <button role="button" type="submit" class="btn btn-primary mx-auto"
+                        [disabled]="uploadPDFForm.invalid">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+            <a ngbNavLink (click)="getUserRequests()">Requests</a>
+            <ng-template ngbNavContent>
+                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                    <table [class]="theme=='default'?'table table-striped' : 'table table-dark'">
+                        <thead>
+                            <th>File Name</th>
+                            <th>Status</th>
+                            <th>Source Download Link</th>
+                            <th>Result Download Link</th>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="requests.length; else noRequests">
+                                <ng-container *ngFor="let request of requests">
+                                    <tr>
+                                        <td>{{request.fileName}}</td>
+                                        <td>{{request.resultFileLink?'Completed': 'In progress'}}</td>
+                                        <td><a *ngIf="request.fileLink" [href]="request.fileLink" target="_self">Download</a></td>
+                                        <td><a *ngIf="request.resultFileLink" [href]="request.resultFileLink" target="_self">Download</a></td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #noRequests>
+                                <td colspan="3">No requests to show</td>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </ng-container>
+            </ng-template>
+        </li>
+    </ul>   
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>
+
+<ng-template #loadingSpinner>
+    <div class="d-flex flex-row my-2 spinner-border mx-auto" role="status" aria-hidden="true">
+    </div>
+    <div class="d-flex flex-row my-2">
+        <strong class="mx-auto" aria-live="polite" role="alert">Loading...</strong>
+    </div>
+</ng-template>

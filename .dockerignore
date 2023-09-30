@@ -1,0 +1,9 @@
+.git
+
+.gitignore
+ 
+*.md
+
+/e2e
+
+/node_modules

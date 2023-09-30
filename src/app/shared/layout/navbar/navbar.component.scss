@@ -1,0 +1,112 @@
+#menu {
+    display: none;
+}
+.mySidebar {
+    display: none;
+}
+i {
+    display: none;
+}
+.ms-4 {
+    margin-left: 1.5rem!important;
+}
+
+.navbar-dark .navbar-brand {
+    color: #919fae !important;
+}
+
+.nav-bottom-border {
+    background: #343a40;
+    height: 8px;
+    opacity: 1;
+}
+
+.navbar-brand{
+    font-size: 1rem;
+}
+
+.site-search{
+    border-right:1px solid #D1D1D1;
+}
+.ms-2{
+    background-color: #ffffff;
+    font-size: 16px;
+    font-weight: normal;
+    color:  #030b14;
+    
+//color: #919fae
+}
+
+.ms-2-dark{
+    background-color: #343a40;
+    font-size: 16px;
+    font-weight: normal;
+    color:  #ffffff;
+}
+
+@media only screen and (max-width: 800px) {
+    .navbar-brand {
+        display: none;
+    }
+
+    #menu {
+        display: inline;
+        height: 20px;
+        width: 30px;
+    }
+    .mySidebar {
+        display: block;
+    }
+    i {
+        display: block;
+    }
+
+    .active {
+        background-color: rgb(59, 58, 58);
+        
+        border-right: 5px solid orange;
+        border-top: 1px solid grey;
+        border-bottom: 1px solid grey;
+        border-left: 1px solid grey;
+        color: orange;
+    }
+
+    .list-group-item a {
+        background-color: rgb(59, 58, 58);
+    }
+
+    /* The sidebar menu */
+    .sidebar {
+        height: 100%; /* 100% Full-height */
+        width: 0px; /* 0 width - change this with JavaScript */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Stay on top */
+        top: 0;
+        left: 0;
+        background-color: rgb(59, 58, 58);
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 10px; /* Place content 60px from the top */
+        transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    }
+
+    /* The sidebar links */
+    .sidebar a {
+        padding: 8px 0px 8px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        background-color: rgb(59, 58, 58);
+        /* margin-left: 250px; */
+    }
+    
+}
+.main-navigation > ul{
+   right: 30px;
+    top:15px ;
+}
+
+.high-contrast-button{
+    font-size: 14px;
+}
