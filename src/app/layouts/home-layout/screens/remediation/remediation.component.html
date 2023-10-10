@@ -1,10 +1,10 @@
 <div class="flex-container">
-    <h2 class="my-3">Accessibility Conversion</h2>
-    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <h2 class="my-3 text-center">Accessibility Conversion</h2>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs pl-md-5">
         <li [ngbNavItem]="1">
             <a ngbNavLink>File Upload</a>
             <ng-template ngbNavContent>
-                <form id="uploadPDFForm" [formGroup]="uploadPDFForm" (ngSubmit)="uploadPDFFormSubmit()">
+                <form id="uploadPDFForm" [formGroup]="uploadPDFForm" class="mx-auto" (ngSubmit)="uploadPDFFormSubmit()">
                     <div class="d-flex flex-column">
                         <div class="form-group">
                             <label for="upload-pdf">Select PDF for accessibility conversion</label>
@@ -49,6 +49,7 @@
                             <th>Status</th>
                             <th>Source Download Link</th>
                             <th>Result Download Link</th>
+                            <th>Upload Date</th>
                         </thead>
                         <tbody>
                             <ng-container *ngIf="requests.length; else noRequests">
@@ -58,6 +59,7 @@
                                         <td>{{request.resultFileLink?'Completed': 'In progress'}}</td>
                                         <td><a *ngIf="request.fileLink" [href]="request.fileLink" target="_self">Download</a></td>
                                         <td><a *ngIf="request.resultFileLink" [href]="request.resultFileLink" target="_self">Download</a></td>
+                                        <td>{{request.createdAt | date:'medium'}}</td>
                                     </tr>
                                 </ng-container>
                             </ng-container>
