@@ -78,7 +78,7 @@ export class RemediationComponent implements OnInit, OnDestroy {
               const body: OCRUploadData = {
                 userId: user._id,
                 email: user.email,
-                doc_type: +this.uploadPDFForm.controls['containsMath'].value?'MATH ':'NONMATH',
+                doc_type: +this.uploadPDFForm.controls['containsMath'].value?'MATH':'NONMATH',
                 file: this.selectedFile,
                 format: this.uploadPDFForm.controls['outputFormat'].value,
               }
@@ -110,6 +110,22 @@ export class RemediationComponent implements OnInit, OnDestroy {
           this.subscriptions.push(this.dataService.getPDFResultsByUserId(user?._id).subscribe({
             next: (response: any) => {
               this.requests = response.data;
+              if(this.requests.length) {
+                for(let i = 0; i < this.requests.length; i++) {
+                  if(this.requests[i].resultFileLink && !this.requests[i].resultFileLinkActive) {
+                    this.subscriptions.push(this.dataService.checkS3ObjectPresence(this.requests[i].resultFileLink, this.requests[i]._id, user.email).subscribe({
+                      next: (response: any) => {
+                        this.requests[i].resultFileLinkActive = true;
+                        console.log(this.requests[i])
+                      },
+                      error: (err) => {
+                        console.log(err);
+                        this.isLoading = false;
+                      }
+                    }))
+                  }
+                }
+              }
               this.isLoading = false;
             },
             error: (err) => {

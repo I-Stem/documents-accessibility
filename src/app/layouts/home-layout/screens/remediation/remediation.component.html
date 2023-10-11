@@ -56,9 +56,9 @@
                                 <ng-container *ngFor="let request of requests">
                                     <tr>
                                         <td>{{request.fileName}}</td>
-                                        <td>{{request.resultFileLink?'Completed': 'In progress'}}</td>
-                                        <td><a *ngIf="request.fileLink" [href]="request.fileLink" target="_self">Download</a></td>
-                                        <td><a *ngIf="request.resultFileLink" [href]="request.resultFileLink" target="_self">Download</a></td>
+                                        <td>{{request.resultFileLinkActive?'Completed': 'In progress'}}</td>
+                                        <td><a *ngIf="request.fileLink; else loadingText" [href]="request.fileLink" target="_self">Download</a></td>
+                                        <td><a *ngIf="request.resultFileLink && request.resultFileLinkActive; else loadingText" [href]="request.resultFileLink" target="_self">Download</a></td>
                                         <td>{{request.createdAt | date:'medium'}}</td>
                                     </tr>
                                 </ng-container>
@@ -81,4 +81,8 @@
     <div class="d-flex flex-row my-2">
         <strong class="mx-auto" aria-live="polite" role="alert">Loading...</strong>
     </div>
+</ng-template>
+
+<ng-template #loadingText>
+    loading...
 </ng-template>

@@ -63,4 +63,13 @@ export class DataService {
       console.log(err);
     }
   }
+
+  checkS3ObjectPresence(url: string, id: string, email: string) {
+    const body = {
+      id: id,
+      url: url,
+      email: email,
+    }
+    return this.http.post(`${environment.pythonServer}/check_s3_object_presence`, body)
+  }
 }
