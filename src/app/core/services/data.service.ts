@@ -72,4 +72,29 @@ export class DataService {
     }
     return this.http.post(`${environment.pythonServer}/check_s3_object_presence`, body)
   }
+
+  compareFiles(url: string, file: File) {
+    let headers = new HttpHeaders({
+      "Access-Control-Allow-Origin" : "*",
+      "Accept": "*/*",
+      "Content-Type": "multipart/form-data"
+    });
+
+    let formData: any = new FormData();
+    formData.append('url', url);
+    formData.append('file', file);
+    return this.http.post(`${environment.pythonServer}/compare_files`, formData)
+  }
+
+  assignValuesOfPreviousUpload(userId: string, fileName: string, fileLink: string, resultFileLink: string, resultFileLinkActive: boolean, docType: string) {
+    const body = {
+      user: userId,
+      fileName: fileName,
+      fileLink: fileLink,
+      resultFileLink: resultFileLink,
+      resultFileLinkActive: resultFileLinkActive,
+      docType: docType
+    }
+    return this.http.post(`${environment.baseUrl}/autotag/pdf`, body)
+  }
 }

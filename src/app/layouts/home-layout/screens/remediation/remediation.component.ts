@@ -6,6 +6,7 @@ import { DataService } from 'src/app/core/services/data.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { OCRUploadData } from 'src/app/shared/entity/entity';
+import { IUser } from 'src/app/shared/entity/user.model';
 
 @Component({
   selector: 'app-remediation',
@@ -21,6 +22,7 @@ export class RemediationComponent implements OnInit, OnDestroy {
   requests: any[] = [];
   theme: string = 'default';
   isLoading: boolean = false;
+  sameFileFound: boolean = false;
 
   constructor(private fb: FormBuilder,
     private dataService: DataService,
@@ -64,42 +66,53 @@ export class RemediationComponent implements OnInit, OnDestroy {
     this.uploadPDFForm.disable();
     this.subscriptions.push(this.userService.getUserDetail().subscribe({
       next: user => {
-        if(user?.email && user._id) {
-            if(!+this.uploadPDFForm.controls['containsMath'].value &&this.uploadPDFForm.controls['outputFormat'].value=='PDF') {
-              this.dataService.pdfAccessibilityCheck(this.selectedFile, user.email, user._id)
-              setTimeout(() => {
-                this.selectedFile = {} as File
-                this.uploadPDFForm.reset();
-                this.uploadPDFForm.enable();
-                this.router.navigate(['/home/remediation-success']);              
-              }, 2000);
-            }
-            else {
-              const body: OCRUploadData = {
-                userId: user._id,
-                email: user.email,
-                doc_type: +this.uploadPDFForm.controls['containsMath'].value?'MATH':'NONMATH',
-                file: this.selectedFile,
-                format: this.uploadPDFForm.controls['outputFormat'].value,
-              }
-              this.dataService.pdfAccessibilityCheckOCR(body)
-              setTimeout(() => {
-                this.selectedFile = {} as File
-                this.uploadPDFForm.reset();
-                this.uploadPDFForm.enable();
-                this.router.navigate(['/home/remediation-success']);              
-              }, 2000);
-            }
+        if(user) {
+          let matchedFiles = this.requests.filter(request => request.fileName === this.selectedFile.name)
+          if(matchedFiles.length === 0) {        
+            this.uploadFileForProcessing(user);
           }
           else {
-            alert("Error: User has no email address")
+            let matchedCount = matchedFiles.length
+            let isMatched = false;
+            matchedFiles.forEach((request) => {
+              if(request.fileName === this.selectedFile.name && request.docType === +this.uploadPDFForm.controls['containsMath'].value?'MATH':'NONMATH') {
+                let outputFileType = request.resultFileLink.split('/')
+                outputFileType = outputFileType[outputFileType.length - 1].split('.')
+                if(this.uploadPDFForm.controls['outputFormat'].value.toLowerCase() === outputFileType[outputFileType.length - 1]) {
+                  this.sameFileFound = true;
+                  this.dataService.compareFiles(request.fileLink, this.selectedFile).subscribe({
+                    next: (response: any) => {
+                      if(response.status) {
+                        if(!isMatched) {
+                          this.dataService.assignValuesOfPreviousUpload(request.user, request.fileName, request.fileLink, request.resultFileLink, request.resultFileLinkActive, request.docType).subscribe();
+                        }
+                        isMatched = true;
+                        this.router.navigate(['/home/remediation-success']);              
+                      }
+                      else {
+                        if(--matchedCount === 0) {
+                          this.uploadFileForProcessing(user);
+                        }    
+                      }
+                    },
+                    error: (error) => {
+                      console.log(error)
+                      if(--matchedCount === 0) {
+                        this.uploadFileForProcessing(user);
+                      }   
+                    }
+                  })
+                }
+              }
+            })
           }
-        },
-        error: err => {
-          console.log(err);
         }
-      }))
-      return
+      },
+      error: err => {
+        console.log(err);
+      }
+    }))
+    return
   }
   
   getUserRequests() {
@@ -146,6 +159,39 @@ export class RemediationComponent implements OnInit, OnDestroy {
   checkOutputOptions() {
     if(+this.uploadPDFForm.controls['containsMath'].value && this.uploadPDFForm.controls['outputFormat'].value=='PDF') {
       this.uploadPDFForm.patchValue({outputFormat:''})
+    }
+  }
+
+  uploadFileForProcessing(user : IUser) {
+    if(user?.email && user._id) {
+      if(!+this.uploadPDFForm.controls['containsMath'].value &&this.uploadPDFForm.controls['outputFormat'].value=='PDF') {
+        this.dataService.pdfAccessibilityCheck(this.selectedFile, user.email, user._id)
+        setTimeout(() => {
+          this.selectedFile = {} as File
+          this.uploadPDFForm.reset();
+          this.uploadPDFForm.enable();
+          this.router.navigate(['/home/remediation-success']);              
+        }, 2000);
+      }
+      else {
+        const body: OCRUploadData = {
+          userId: user._id,
+          email: user.email,
+          doc_type: +this.uploadPDFForm.controls['containsMath'].value?'MATH':'NONMATH',
+          file: this.selectedFile,
+          format: this.uploadPDFForm.controls['outputFormat'].value,
+        }
+        this.dataService.pdfAccessibilityCheckOCR(body)
+        setTimeout(() => {
+          this.selectedFile = {} as File
+          this.uploadPDFForm.reset();
+          this.uploadPDFForm.enable();
+          this.router.navigate(['/home/remediation-success']);              
+        }, 2000);
+      }
+    }
+    else {
+      alert("Error: User has no email address")
     }
   }
 }
